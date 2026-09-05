@@ -37,9 +37,14 @@ pipeline {
                 sh 'npm audit || true'
             }
         }
-        stage('Test SonarScanner') {
+        stage('SonarCloud Analysis') {
     steps {
-        sh '/opt/sonar-scanner/bin/sonar-scanner --version'
+        withCredentials([string(credentialsId: 'SONAR_TOKEN', variable: 'SONAR_TOKEN')]) {
+            sh '''
+                /opt/sonar-scanner/bin/sonar-scanner \
+                  -Dsonar.token="$SONAR_TOKEN"
+            '''
+        }
     }
 }
     }
