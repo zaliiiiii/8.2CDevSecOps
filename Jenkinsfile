@@ -37,5 +37,10 @@ pipeline {
                 sh 'npm audit || true'
             }
         }
+        stage('Test SonarScanner') {
+    steps {
+        sh '/opt/sonar-scanner/bin/sonar-scanner --version'
+    }
+}
     }
 }
