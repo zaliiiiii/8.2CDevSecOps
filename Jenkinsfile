@@ -55,7 +55,6 @@ pipeline {
                 echo "SONAR_TOKEN was successfully provided to Jenkins"
 
                 /opt/sonar-scanner/bin/sonar-scanner \
-                  -Dsonar.token="$SONAR_TOKEN"
             '''
         }
     }
