@@ -40,9 +40,22 @@ pipeline {
     
          stage('SonarCloud Analysis') {
     steps {
-        withCredentials([string(credentialsId: 'SONAR_TOKEN', variable: 'SONAR_TOKEN')]) {
+        withCredentials([string(
+            credentialsId: 'SONAR_TOKEN',
+            variable: 'SONAR_TOKEN'
+        )]) {
             sh '''
-                /opt/sonar-scanner/bin/sonar-scanner
+                echo "Checking whether SONAR_TOKEN is available..."
+
+                if [ -z "$SONAR_TOKEN" ]; then
+                    echo "ERROR: SONAR_TOKEN is empty"
+                    exit 1
+                fi
+
+                echo "SONAR_TOKEN was successfully provided to Jenkins"
+
+                /opt/sonar-scanner/bin/sonar-scanner \
+                  -Dsonar.token="$SONAR_TOKEN"
             '''
         }
     }
